@@ -12,7 +12,7 @@ import "./interfaces/ICustomRouter.sol";
 contract Trigger is Ownable {
     using SafeMath for uint256;
 
-    address private constant wbnb;
+    address private wbnb;
 
     address payable private administrator;
     address private customRouter;
@@ -70,6 +70,13 @@ contract Trigger is Ownable {
             block.timestamp + 120
         );
 
+        path[0] = tokenToBuy;
+        path[1] = tokenPaired;
+
+        if (path[2]) {
+            delete path[2];
+        }
+
         uint256 sellTestAmount = IERC20(tokenToBuy)
             .balanceOf(address(this))
             .div(100);
@@ -78,13 +85,13 @@ contract Trigger is Ownable {
 
         uint[] memory amounts = ICustomRouter(customRouter).getAmountsOut(
             sellTestAmount,
-            [tokenToBuy, tokenPaired]
+            path
         );
 
         ICustomRouter(customRouter).swapExactTokensForTokens(
             sellTestAmount,
             amounts[1].sub(amounts[1].div(10)),
-            [tokenToBuy, tokenPaired],
+            path,
             administrator,
             block.timestamp + 120
         );
