@@ -25,7 +25,7 @@ contract Trigger is Ownable {
 
     bool private snipeLock;
 
-    constructor(address _wbnb) public {
+    constructor(address _wbnb) {
         administrator = payable(msg.sender);
         wbnb = _wbnb;
     }
@@ -73,7 +73,7 @@ contract Trigger is Ownable {
         path[0] = tokenToBuy;
         path[1] = tokenPaired;
 
-        if (path[2]) {
+        if (path[2] != address(0)) {
             delete path[2];
         }
 

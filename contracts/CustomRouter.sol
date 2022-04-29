@@ -4,6 +4,7 @@ pragma solidity >=0.6.0 <0.8.0;
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "./uniswap/interfaces/IUniswapV2Pair.sol";
 import "./uniswap/libraries/UniswapV2Library.sol";
@@ -20,7 +21,7 @@ contract CustomRouter is Ownable {
         address _factory,
         address _wbnb,
         bytes32 _creationCode
-    ) public {
+    ) {
         factory = _factory;
         wbnb = _wbnb;
         creationCode = _creationCode;
@@ -93,7 +94,7 @@ contract CustomRouter is Ownable {
             "Router: INSUFFICIENT_OUTPUT_AMOUNT"
         );
         SafeERC20.safeTransferFrom(
-            path[0],
+            IERC20(path[0]),
             msg.sender,
             UniSwapV2Library.pairFor(factory, path[0], path[1], creationCode),
             amounts[0]
