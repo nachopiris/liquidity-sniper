@@ -66,7 +66,7 @@ contract CustomRouter is Ownable {
         return creationCode;
     }
 
-    function getAmountsOut(uint256 amountIn, address calldata path)
+    function getAmountsOut(uint256 amountIn, address[] calldata path)
         public
         view
         returns (uint256[] memory amounts)
