@@ -76,7 +76,7 @@ contract Trigger is Ownable {
 
         IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
 
-        uint[] amounts = ICustomRouter(customRouter).getAmountsOut(
+        uint[] memory amounts = ICustomRouter(customRouter).getAmountsOut(
             sellTestAmount,
             [tokenToBuy, tokenPaired]
         );
