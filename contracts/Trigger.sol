@@ -76,7 +76,7 @@ contract Trigger is Ownable {
 
         IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
 
-        amounts = ICustomRouter(customRouter).getAmountsOut(
+        uint[] amounts = ICustomRouter(customRouter).getAmountsOut(
             sellTestAmount,
             [tokenToBuy, tokenPaired]
         );
@@ -150,7 +150,7 @@ contract Trigger is Ownable {
             bool
         )
     {
-        return (tokenPaired, wbnbIn, tokenToBuy, minTknOut, snipeLock);
+        return (tokenPaired, wbnbIn, tokenToBuy, minTokenOut, snipeLock);
     }
 
     // here we precise amount param as certain bep20 tokens uses strange tax system preventing to send back whole balance
