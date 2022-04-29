@@ -69,7 +69,7 @@ contract CustomRouter is Ownable {
     function getAmountsOut(uint256 amountIn, address calldata path)
         public
         view
-        returns (uint256[] amounts)
+        returns (uint256[] memory amounts)
     {
         return
             UniSwapV2Library.getAmountsOut(
