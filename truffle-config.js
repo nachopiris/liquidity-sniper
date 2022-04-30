@@ -39,10 +39,10 @@ module.exports = {
     },
     bsctestnet: {
       provider: () => new HDWalletProvider(hdWalletProviderOptions(
-        process.env.BINANCE_WALLET_PRIVATE_KEY,
-        process.env.BINANCE_WALLET_MNEMONIC,
+        process.env.BINANCE_TESTNET_WALLET_PRIVATE_KEY,
+        process.env.BINANCE_TESTNET_WALLET_MNEMONIC,
         {
-          providerOrUrl: 'https://data-seed-prebsc-2-s2.binance.org:8545/'
+          providerOrUrl: process.env.BINANCE_TESTNET_RPC_URL
         }
       )),
       network_id: 0x61,
@@ -56,7 +56,7 @@ module.exports = {
         process.env.BINANCE_MAINNET_WALLET_PRIVATE_KEY,
         process.env.BINANCE_MAINNET_WALLET_MNEMONIC,
         {
-          providerOrUrl: 'https://bsc-dataseed.binance.org/'
+          providerOrUrl: process.env.BINANCE_MAINNET_RPC_URL
         }
       )),
       network_id: 0x38,
