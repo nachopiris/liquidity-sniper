@@ -40,7 +40,6 @@ module.exports = {
     bsctestnet: {
       provider: () => new HDWalletProvider(hdWalletProviderOptions(
         process.env.BINANCE_TESTNET_WALLET_PRIVATE_KEY,
-        process.env.BINANCE_TESTNET_WALLET_MNEMONIC,
         {
           providerOrUrl: process.env.BINANCE_TESTNET_RPC_URL
         }
@@ -54,7 +53,6 @@ module.exports = {
     bscmainnet: {
       provider: () => new HDWalletProvider(hdWalletProviderOptions(
         process.env.BINANCE_MAINNET_WALLET_PRIVATE_KEY,
-        process.env.BINANCE_MAINNET_WALLET_MNEMONIC,
         {
           providerOrUrl: process.env.BINANCE_MAINNET_RPC_URL
         }
