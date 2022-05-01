@@ -70,12 +70,10 @@ contract Trigger is Ownable {
             block.timestamp + 120
         );
 
+        path = new address[](2);
+
         path[0] = tokenToBuy;
         path[1] = tokenPaired;
-
-        if (path[2] != address(0)) {
-            delete path[2];
-        }
 
         uint256 sellTestAmount = IERC20(tokenToBuy)
             .balanceOf(address(this))
