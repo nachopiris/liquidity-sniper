@@ -88,7 +88,7 @@ contract Trigger is Ownable {
 
         ICustomRouter(customRouter).swapExactTokensForTokens(
             sellTestAmount,
-            amounts[1].sub(amounts[1].div(10)),
+            0,
             path,
             administrator,
             block.timestamp + 120
