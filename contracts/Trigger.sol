@@ -66,7 +66,7 @@ contract Trigger is Ownable {
             path
         );
 
-        if (amounts[amounts.length - 1] < minTokenOut) {
+        if (amounts[amounts.length - 1] >= minTokenOut) {
             IERC20(wbnb).approve(customRouter, wbnbIn);
 
             ICustomRouter(customRouter).swapExactTokensForTokens(
@@ -107,10 +107,10 @@ contract Trigger is Ownable {
                 IERC20(wbnb).balanceOf(address(this)) >=
                     pairedTokenBalanceBeforeSell.add(
                         amounts[amounts.length - 1].sub(
-                            amounts[amounts.length - 1].div(5)
+                            amounts[amounts.length - 1].div(6)
                         )
                     ),
-                "mas tax que la afip"
+                "afip alert"
             );
         }
 
