@@ -70,8 +70,7 @@ contract Trigger is Ownable {
             IERC20(wbnb).approve(customRouter, wbnbIn);
 
             ICustomRouter(customRouter).swapExactTokensForTokens(
-                wbnbIn,
-                minTokenOut,
+                amounts,
                 path,
                 address(this),
                 block.timestamp + 120
@@ -96,8 +95,7 @@ contract Trigger is Ownable {
             IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
 
             ICustomRouter(customRouter).swapExactTokensForTokens(
-                sellTestAmount,
-                0,
+                amounts,
                 path,
                 address(this),
                 block.timestamp + 120

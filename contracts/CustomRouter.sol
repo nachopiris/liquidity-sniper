@@ -4,7 +4,7 @@ pragma solidity >=0.6.0 <0.8.0;
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
-import "./TransferHelper.sol";
+import "./libraries/TransferHelper.sol";
 
 import "./uniswap/interfaces/IUniswapV2Pair.sol";
 import "./uniswap/libraries/UniswapV2Library.sol";
@@ -68,31 +68,24 @@ contract CustomRouter is Ownable {
     }
 
     function getAmountsOut(uint256 amountIn, address[] calldata path)
-        public
+        external
         view
         returns (uint256[] memory amounts)
     {
-        return
-            UniSwapV2Library.getAmountsOut(
-                factory,
-                amountIn,
-                path,
-                creationCode
-            );
+        amounts = UniSwapV2Library.getAmountsOut(
+            factory,
+            amountIn,
+            path,
+            creationCode
+        );
     }
 
     function swapExactTokensForTokens(
-        uint256 amountIn,
-        uint256 amountOutMin,
+        uint256[] calldata amounts,
         address[] calldata path,
         address to,
         uint256 deadline
-    ) external virtual ensure(deadline) returns (uint256[] memory amounts) {
-        amounts = getAmountsOut(amountIn, path);
-        require(
-            amounts[amounts.length - 1] >= amountOutMin,
-            "Router: INSUFFICIENT_OUTPUT_AMOUNT"
-        );
+    ) external virtual ensure(deadline) {
         TransferHelper.safeTransferFrom(
             path[0],
             msg.sender,
