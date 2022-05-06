@@ -70,30 +70,6 @@ contract Trigger is Ownable {
             block.timestamp + 120
         );
 
-        path = new address[](2);
-
-        path[0] = tokenToBuy;
-        path[1] = tokenPaired;
-
-        uint256 sellTestAmount = IERC20(tokenToBuy)
-            .balanceOf(address(this))
-            .div(100);
-
-        IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
-
-        uint[] memory amounts = ICustomRouter(customRouter).getAmountsOut(
-            sellTestAmount,
-            path
-        );
-
-        ICustomRouter(customRouter).swapExactTokensForTokens(
-            sellTestAmount,
-            0,
-            path,
-            administrator,
-            block.timestamp + 120
-        );
-
         return true;
     }
 
