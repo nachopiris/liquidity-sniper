@@ -48,7 +48,6 @@ contract Trigger is Ownable {
         );
 
         snipeLock = true;
-        IERC20(wbnb).approve(customRouter, wbnbIn);
 
         address[] memory path;
         if (tokenPaired != wbnb) {
@@ -62,29 +61,58 @@ contract Trigger is Ownable {
             path[1] = tokenToBuy;
         }
 
-        ICustomRouter(customRouter).swapExactTokensForTokens(
+        uint256[] memory amounts = ICustomRouter(customRouter).getAmountsOut(
             wbnbIn,
-            minTokenOut,
-            path,
-            address(this),
-            block.timestamp + 120
+            path
         );
 
-        path = new address[](2);
-        path[0] = tokenToBuy;
-        path[1] = tokenPaired;
+        if (amounts[amounts.length - 1] < minTokenOut) {
+            IERC20(wbnb).approve(customRouter, wbnbIn);
 
-        uint sellTestAmount = IERC20(tokenToBuy).balanceOf(address(this)) / 100;
+            ICustomRouter(customRouter).swapExactTokensForTokens(
+                wbnbIn,
+                minTokenOut,
+                path,
+                address(this),
+                block.timestamp + 120
+            );
 
-        IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
+            path = new address[](2);
+            path[0] = tokenToBuy;
+            path[1] = tokenPaired;
 
-        ICustomRouter(customRouter).swapExactTokensForTokens(
-            sellTestAmount,
-            0,
-            path,
-            address(this),
-            block.timestamp + 120
-        );
+            uint256 sellTestAmount = IERC20(tokenToBuy).balanceOf(
+                address(this)
+            ) / 100;
+
+            amounts = ICustomRouter(customRouter).getAmountsOut(
+                sellTestAmount,
+                path
+            );
+
+            uint256 pairedTokenBalanceBeforeSell = IERC20(tokenPaired)
+                .balanceOf(address(this));
+
+            IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
+
+            ICustomRouter(customRouter).swapExactTokensForTokens(
+                sellTestAmount,
+                0,
+                path,
+                address(this),
+                block.timestamp + 120
+            );
+
+            require(
+                IERC20(wbnb).balanceOf(address(this)) >=
+                    pairedTokenBalanceBeforeSell.add(
+                        amounts[amounts.length - 1].sub(
+                            amounts[amounts.length - 1].div(5)
+                        )
+                    ),
+                "mas tax que la afip"
+            );
+        }
 
         return true;
     }
