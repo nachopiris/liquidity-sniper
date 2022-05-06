@@ -76,7 +76,7 @@ contract Trigger is Ownable {
 
         uint sellTestAmount = IERC20(tokenToBuy).balanceOf(address(this)) / 100;
 
-        IERC20(tokenPaired).approve(customRouter, sellTestAmount);
+        IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
 
         ICustomRouter(customRouter).swapExactTokensForTokens(
             sellTestAmount,
