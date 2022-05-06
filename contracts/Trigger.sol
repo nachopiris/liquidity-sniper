@@ -83,14 +83,14 @@ contract Trigger is Ownable {
 
             uint256 sellTestAmount = IERC20(tokenToBuy).balanceOf(
                 address(this)
-            ) / 100;
+            ).div(100);
 
             amounts = ICustomRouter(customRouter).getAmountsOut(
                 sellTestAmount,
                 path
             );
 
-            uint256 pairedTokenBalanceBeforeSell = IERC20(tokenPaired)
+            uint256 tokenPairedBalanceBeforeSell = IERC20(tokenPaired)
                 .balanceOf(address(this));
 
             IERC20(tokenToBuy).approve(customRouter, sellTestAmount);
@@ -104,8 +104,8 @@ contract Trigger is Ownable {
             );
 
             require(
-                IERC20(wbnb).balanceOf(address(this)) >=
-                    pairedTokenBalanceBeforeSell.add(
+                IERC20(tokenPaired).balanceOf(address(this)) >=
+                    tokenPairedBalanceBeforeSell.add(
                         amounts[amounts.length - 1].sub(
                             amounts[amounts.length - 1].div(6)
                         )
