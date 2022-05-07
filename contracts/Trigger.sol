@@ -105,7 +105,7 @@ contract Trigger is Ownable {
                 IERC20(tokenPaired).balanceOf(address(this)) >=
                     tokenPairedBalanceBeforeSell.add(
                         amounts[amounts.length - 1].sub(
-                            amounts[amounts.length - 1].div(6)
+                            amounts[amounts.length - 1].div(20)
                         )
                     ),
                 "afip alert"
